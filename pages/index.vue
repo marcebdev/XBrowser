@@ -251,8 +251,12 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1em;
-  gap: 1.5em;
+  // gap: 1.5em;
   background-color: hsl(0, 0%, 96%);
+
+  & > .browser:not(:last-child) {
+    margin-bottom: 1.5em;
+  }
 }
 
 .browser {

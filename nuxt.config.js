@@ -67,5 +67,33 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    minimize: true,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        name: undefined,
+        maxSize: 244000,
+      },
+    },
+    postcss: {
+      // Add plugin names as key and arguments as value
+      // Install them before as dependencies with npm or yarn
+      plugins: {
+        'postcss-import': {},
+        'postcss-url': {},
+        'postcss-preset-env': this.preset,
+        cssnano: { preset: 'default' }, // disabled in dev mode
+      },
+      order: 'presetEnvAndCssnanoLast',
+      preset: {
+        // Change the postcss-preset-env settings
+        stage: 2,
+        autoprefixer: {
+          // Use default autoprefixer settings (see defaults first, best to use default & browserlist)
+        },
+      },
+    },
+  },
 }

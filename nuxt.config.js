@@ -35,12 +35,15 @@ export default {
   fontawesome: {
     icons: {
       solid: [
+        'faPlus',
         'faChevronUp',
         'faChevronDown',
         'faChevronRight',
         'faChevronLeft',
         'faFolder',
         'faFileCode',
+        'faFileUpload',
+        'faArrowsAltH',
       ],
     },
   },
@@ -57,6 +60,11 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
+  buefy: {
+    materialDesignIcons: false,
+    defaultIconPack: 'fas',
+    defaultIconComponent: 'FontAwesomeIcon',
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},

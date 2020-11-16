@@ -1,7 +1,7 @@
 # XBrowser Project Team
 
-Team Website [here](https://bviscosi.github.io/XBrowser/)
-Team Website GitHub repo (here)[https://github.com/bviscosi/XBrowser]
+- Team Website [here](https://bviscosi.github.io/XBrowser/)
+- Team Website GitHub repo [here](https://github.com/bviscosi/XBrowser)
 
 # XBrowser Prototype
 

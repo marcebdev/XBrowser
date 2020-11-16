@@ -1,6 +1,10 @@
 <template>
   <div class="sidebar-layout">
     <b-sidebar :reduce="!showSidebar" position="static" fullheight open>
+      <div class="buttons sidebar-buttons" :class="{ reduced: !showSidebar }">
+        <b-button type="is-success">Save</b-button>
+      </div>
+
       <b-menu class="is-custom-mobile padded-sidebar">
         <b-menu-list>
           <template slot="label">
@@ -47,39 +51,52 @@
           </template>
         </b-menu-list>
       </b-menu>
+      <b-tooltip
+        :active="!showSidebar"
+        label="Upload Files"
+        position="is-right"
+        append-to-body
+      >
+        <b-button
+          :label="showSidebar ? 'Upload' : ''"
+          icon-left="file-upload"
+          type="is-primary is-light"
+          expanded
+        />
+      </b-tooltip>
     </b-sidebar>
 
-    <section class="section columns">
-      <div class="columns is-mobile">
-        <card title="Free" icon="github">
-          Open source on <a href="https://github.com/buefy/buefy"> GitHub </a>
-        </card>
+    <section class="app-wrapper">
+      <div class="code-editor">
+        <ul class="line-list">
+          <li class="line-number">1</li>
+        </ul>
+        <b-input
+          class="editor-input"
+          custom-class="has-fixed-size editor-custom"
+        />
+      </div>
 
-        <card title="Responsive" icon="cellphone-link">
-          <b class="has-text-grey"> Every </b> component is responsive
-        </card>
+      <div class="draggable">
+        <b-icon icon="arrows-alt-h" />
+      </div>
 
-        <card title="Modern" icon="alert-decagram">
-          Built with <a href="https://vuejs.org/"> Vue.js </a> and
-          <a href="http://bulma.io/"> Bulma </a>
-        </card>
+      <div class="browsers">
+        <div v-for="browser in browsers" :key="browser" class="box browser">
+          {{ browser }}
+        </div>
 
-        <card title="Lightweight" icon="arrange-bring-to-front">
-          No other internal dependency
-        </card>
+        <b-tooltip label="Add Browser" type="is-primary is-light">
+          <b-button icon-left="plus" type="is-primary is-light" expanded />
+        </b-tooltip>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import Card from '~/components/Card'
-
 export default {
   name: 'HomePage',
-  components: {
-    Card,
-  },
   data() {
     return {
       showSidebar: true,
@@ -103,6 +120,8 @@ export default {
         },
         { name: 'README.md', type: 'file' },
       ],
+
+      browsers: ['Firefox', 'Chrome', 'Safari'],
     }
   },
   computed: {
@@ -154,13 +173,24 @@ export default {
     }
   }
 }
+
+.editor-custom {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+
+  &:focus {
+    background-color: hsl(0, 0%, 86%) !important;
+  }
+}
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
 .sidebar-layout {
   display: flex;
   flex-direction: row;
-  min-height: 100%;
+  height: 100%;
 }
 
 .padded-sidebar {
@@ -169,5 +199,68 @@ export default {
 
 .menu-label {
   text-decoration: none;
+}
+
+.sidebar-buttons {
+  margin: 1em 0 0 1.5em;
+
+  &.reduced {
+    margin-left: auto !important;
+    margin-right: auto;
+  }
+}
+
+.app-wrapper {
+  max-height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.code-editor {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  background-color: hsl(0, 0%, 93%);
+
+  .line-list {
+    border-right: 1px solid hsl(0, 0%, 86%);
+  }
+
+  .line-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5em;
+    padding-left: 0.5em;
+    padding-right: 1.25em;
+  }
+
+  .editor-input {
+    flex-grow: 1;
+  }
+}
+
+.draggable {
+  display: flex;
+  align-items: center;
+  background-color: hsl(0, 0%, 96%);
+}
+
+.browsers {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 1.5em;
+  background-color: hsl(0, 0%, 96%);
+}
+
+.browser {
+  width: 250px;
+  flex: 1 1 150px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

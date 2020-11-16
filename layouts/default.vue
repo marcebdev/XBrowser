@@ -1,12 +1,12 @@
 <template>
   <div class="flex-layout">
-    <b-navbar>
+    <b-navbar type="is-dark">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <h1 class="title">Xbrowser</h1>
+          <h1 class="title has-text-white">Xbrowser</h1>
         </b-navbar-item>
       </template>
-      <template slot="start"> </template>
+      <template slot="start"></template>
 
       <template slot="end"> </template>
     </b-navbar>

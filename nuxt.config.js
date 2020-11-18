@@ -36,6 +36,7 @@ export default {
     icons: {
       solid: [
         'faPlus',
+        'faTimes',
         'faChevronUp',
         'faChevronDown',
         'faChevronRight',

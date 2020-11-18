@@ -71,10 +71,12 @@
         <ul class="line-list">
           <li class="line-number">1</li>
         </ul>
-        <b-input
-          class="editor-input"
-          custom-class="has-fixed-size editor-custom"
-        />
+        <div class="input-wrapper">
+          <b-input
+            class="editor-input"
+            custom-class="has-fixed-size editor-custom"
+          />
+        </div>
       </div>
 
       <div class="draggable">
@@ -83,6 +85,11 @@
 
       <div class="browsers">
         <div v-for="browser in browsers" :key="browser" class="box browser">
+          <b-button
+            class="close-browser"
+            type="is-danger is-light"
+            icon-left="times"
+          />
           {{ browser }}
         </div>
 
@@ -175,13 +182,13 @@ export default {
 }
 
 .editor-custom {
-  background-color: transparent !important;
+  background-color: hsl(0, 0%, 86%) !important;
   border: none !important;
   box-shadow: none !important;
   border-radius: 0;
 
   &:focus {
-    background-color: hsl(0, 0%, 86%) !important;
+    background-color: hsl(0, 0%, 80%) !important;
   }
 }
 </style>
@@ -235,8 +242,13 @@ export default {
     padding-right: 1.25em;
   }
 
-  .editor-input {
+  .input-wrapper {
     flex-grow: 1;
+    height: 100%;
+  }
+
+  .editor-input {
+    background-color: hsl(0, 0%, 86%);
   }
 }
 
@@ -260,11 +272,18 @@ export default {
 }
 
 .browser {
+  position: relative;
   width: 250px;
   flex: 1 1 150px;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .close-browser {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 </style>

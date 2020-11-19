@@ -6,9 +6,13 @@
           <h1 class="title has-text-white">Xbrowser</h1>
         </b-navbar-item>
       </template>
-      <template slot="start"></template>
+      <template slot="start"> </template>
 
-      <template slot="end"> </template>
+      <template slot="end">
+        <b-navbar-item>
+          <b-button label="Download" type="is-primary" />
+        </b-navbar-item>
+      </template>
     </b-navbar>
 
     <nuxt />

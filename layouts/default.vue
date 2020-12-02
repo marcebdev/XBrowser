@@ -8,11 +8,7 @@
       </template>
       <template slot="start"> </template>
 
-      <template slot="end">
-        <b-navbar-item>
-          <b-button label="Download" type="is-primary" />
-        </b-navbar-item>
-      </template>
+      <template slot="end"> </template>
     </b-navbar>
 
     <nuxt />

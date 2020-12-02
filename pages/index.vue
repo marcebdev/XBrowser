@@ -2,7 +2,16 @@
   <div class="sidebar-layout">
     <b-sidebar :reduce="!showSidebar" position="static" fullheight open>
       <div class="buttons sidebar-buttons" :class="{ reduced: !showSidebar }">
-        <b-button type="is-success">Save</b-button>
+        <b-button
+          :label="showSidebar ? 'Save' : ''"
+          icon-left="save"
+          type="is-success"
+        />
+        <b-button
+          :label="showSidebar ? 'Download' : ''"
+          icon-left="cloud-download-alt"
+          type="is-primary"
+        />
       </div>
 
       <b-menu class="is-custom-mobile padded-sidebar">
@@ -13,16 +22,29 @@
               :label="showSidebar ? 'My Project' : ''"
               type="is-text"
               size="is-small"
-              class="menu-label"
               @click="showSidebar = !showSidebar"
             />
           </template>
+
+          <div v-show="showSidebar" class="buttons sidebar-buttons">
+            <b-tooltip
+              always
+              label="Add Folder"
+              position="is-right"
+              type="is-primary is-light"
+            >
+              <b-button
+                icon-left="folder-plus"
+                type="is-primary is-light"
+                size="is-small"
+              />
+            </b-tooltip>
+          </div>
 
           <template v-for="file in filesys">
             <b-menu-item
               v-if="file.type === 'folder'"
               :key="file.name"
-              :active="file.open"
               icon="folder"
             >
               <span slot="label" slot-scope="props">
@@ -46,6 +68,7 @@
               v-else
               :key="file.name"
               :label="file.name"
+              :active.sync="openFile"
               icon="file-code"
             />
           </template>
@@ -67,31 +90,20 @@
     </b-sidebar>
 
     <section class="app-wrapper">
-      <div class="code-editor">
-        <ul class="line-list">
-          <li class="line-number">1</li>
-        </ul>
-        <div class="input-wrapper">
-          <b-input
-            class="editor-input"
-            custom-class="has-fixed-size editor-custom"
-          />
-        </div>
-      </div>
+      <Editor v-model="fileCode" class="code-editor" />
 
       <div class="draggable">
         <b-icon icon="arrows-alt-h" />
       </div>
 
       <div class="browsers">
-        <div v-for="browser in browsers" :key="browser" class="box browser">
-          <b-button
-            class="close-browser"
-            type="is-danger is-light"
-            icon-left="times"
-          />
-          {{ browser }}
-        </div>
+        <Browser
+          v-for="browser in browsers"
+          :key="browser.name"
+          :browser="browser"
+          :code="fileCode"
+          class="browser"
+        />
 
         <b-tooltip label="Add Browser" type="is-primary is-light">
           <b-button icon-left="plus" type="is-primary is-light" expanded />
@@ -102,8 +114,12 @@
 </template>
 
 <script>
+import Editor from '~/components/Editor'
+import Browser from '~/components/Browser'
+
 export default {
   name: 'HomePage',
+  components: { Editor, Browser },
   data() {
     return {
       showSidebar: true,
@@ -111,6 +127,9 @@ export default {
 
       maxColumns: 12,
       contentSize: 10,
+
+      openFile: null,
+      fileCode: 'testing123',
 
       filesys: [
         {
@@ -128,7 +147,7 @@ export default {
         { name: 'README.md', type: 'file' },
       ],
 
-      browsers: ['Firefox', 'Chrome', 'Safari'],
+      browsers: [{ name: 'native' }],
     }
   },
   computed: {
@@ -157,7 +176,22 @@ export default {
 </script>
 
 <style lang="scss">
+// Fix for tooltips in .buttons
+.buttons .b-tooltip {
+  margin-bottom: 0.5rem;
+
+  & > .tooltip-trigger > .button {
+    margin-bottom: 0;
+  }
+}
+
 .sidebar-content.is-mini {
+  .menu-label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   &:not(.is-mini-expand),
   &.is-mini-expand:not(:hover) {
     .menu-label:not(:last-child) {
@@ -178,17 +212,6 @@ export default {
         }
       }
     }
-  }
-}
-
-.editor-custom {
-  background-color: hsl(0, 0%, 86%) !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0;
-
-  &:focus {
-    background-color: hsl(0, 0%, 80%) !important;
   }
 }
 </style>
@@ -212,8 +235,15 @@ export default {
   margin: 1em 0 0 1.5em;
 
   &.reduced {
-    margin-left: auto !important;
-    margin-right: auto;
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > .button {
+      margin-right: 0;
+    }
   }
 }
 
@@ -225,31 +255,9 @@ export default {
 
 .code-editor {
   flex-grow: 1;
+  flex-shrink: 1;
   display: flex;
   flex-direction: row;
-  background-color: hsl(0, 0%, 93%);
-
-  .line-list {
-    border-right: 1px solid hsl(0, 0%, 86%);
-  }
-
-  .line-number {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2.5em;
-    padding-left: 0.5em;
-    padding-right: 1.25em;
-  }
-
-  .input-wrapper {
-    flex-grow: 1;
-    height: 100%;
-  }
-
-  .editor-input {
-    background-color: hsl(0, 0%, 86%);
-  }
 }
 
 .draggable {
@@ -266,24 +274,14 @@ export default {
   // gap: 1.5em;
   background-color: hsl(0, 0%, 96%);
 
+  & > .browser {
+    width: 250px;
+    flex: 1 1 150px;
+    margin: 0;
+  }
+
   & > .browser:not(:last-child) {
     margin-bottom: 1.5em;
-  }
-}
-
-.browser {
-  position: relative;
-  width: 250px;
-  flex: 1 1 150px;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .close-browser {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 }
 </style>

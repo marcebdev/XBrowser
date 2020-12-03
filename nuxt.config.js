@@ -45,6 +45,7 @@ export default {
         'faCloudDownloadAlt',
         'faFolder',
         'faFolderPlus',
+        'faFileMedical',
         'faFileCode',
         'faFileUpload',
         'faArrowsAltH',

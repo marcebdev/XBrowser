@@ -28,13 +28,23 @@
 
           <div v-show="showSidebar" class="buttons sidebar-buttons">
             <b-tooltip
-              always
               label="Add Folder"
               position="is-right"
               type="is-primary is-light"
             >
               <b-button
                 icon-left="folder-plus"
+                type="is-primary is-light"
+                size="is-small"
+              />
+            </b-tooltip>
+            <b-tooltip
+              label="Add File"
+              position="is-right"
+              type="is-primary is-light"
+            >
+              <b-button
+                icon-left="file-medical"
                 type="is-primary is-light"
                 size="is-small"
               />
@@ -129,7 +139,7 @@ export default {
       contentSize: 10,
 
       openFile: null,
-      fileCode: 'testing123',
+      fileCode: '',
 
       filesys: [
         {
@@ -176,9 +186,17 @@ export default {
 </script>
 
 <style lang="scss">
+.number {
+  all: unset;
+}
+
 // Fix for tooltips in .buttons
 .buttons .b-tooltip {
   margin-bottom: 0.5rem;
+
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 
   & > .tooltip-trigger > .button {
     margin-bottom: 0;

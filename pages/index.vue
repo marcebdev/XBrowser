@@ -90,12 +90,17 @@
         position="is-right"
         append-to-body
       >
-        <b-button
-          :label="showSidebar ? 'Upload' : ''"
-          icon-left="file-upload"
-          type="is-primary is-light"
-          expanded
-        />
+        <b-field class="file is-primary">
+          <b-upload class="file-label" expanded @input="uploadFile($event)">
+            <b-button
+              tag="a"
+              :label="showSidebar ? 'Upload' : ''"
+              icon-left="file-upload"
+              type="is-primary is-light"
+              expanded
+            />
+          </b-upload>
+        </b-field>
       </b-tooltip>
     </b-sidebar>
 
@@ -109,14 +114,19 @@
       <div class="browsers">
         <Browser
           v-for="browser in browsers"
-          :key="browser.name"
+          :key="`${browser.type}_${browser.version}`"
           :browser="browser"
           :code="fileCode"
           class="browser"
         />
 
         <b-tooltip label="Add Browser" type="is-primary is-light">
-          <b-button icon-left="plus" type="is-primary is-light" expanded />
+          <b-button
+            icon-left="plus"
+            type="is-primary is-light"
+            expanded
+            @click="openBrowserModal()"
+          />
         </b-tooltip>
       </div>
     </section>
@@ -126,6 +136,7 @@
 <script>
 import Editor from '~/components/Editor'
 import Browser from '~/components/Browser'
+import BrowserModal from '~/components/BrowserModal'
 
 export default {
   name: 'HomePage',
@@ -146,18 +157,11 @@ export default {
           name: 'src',
           type: 'folder',
           open: false,
-          contains: [{ name: 'test.js', type: 'file' }],
+          contains: [{ name: 'index.html', type: 'file' }],
         },
-        {
-          name: 'empty',
-          type: 'folder',
-          open: false,
-          contains: [],
-        },
-        { name: 'README.md', type: 'file' },
       ],
 
-      browsers: [{ name: 'native' }],
+      browsers: [{ type: 'native', version: '' }],
     }
   },
   computed: {
@@ -180,6 +184,26 @@ export default {
     },
     getIcon(type) {
       return type === 'folder' ? 'folder' : 'file-code'
+    },
+    uploadFile(file) {
+      const reader = new FileReader()
+      reader.addEventListener('load', (event) => {
+        this.fileCode = event.target.result
+      })
+
+      reader.readAsText(file)
+    },
+    addBrowser(browser) {
+      this.browsers.push(browser)
+    },
+    openBrowserModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: BrowserModal,
+        events: { addBrowser: this.addBrowser },
+        hasModalCard: true,
+        trapFocus: true,
+      })
     },
   },
 }

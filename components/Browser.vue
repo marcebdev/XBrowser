@@ -1,11 +1,18 @@
 <template>
-  <div class="box browser">
-    <b-button
-      class="close-browser"
-      type="is-danger is-light"
-      icon-left="times"
-    />
-    <div v-html="code" />
+  <div class="card">
+    <header class="card-header">
+      <h4 class="card-header-title">{{ browser.type }}</h4>
+
+      <b-button
+        class="close-browser"
+        type="is-danger"
+        icon-left="times"
+        outlined
+      />
+    </header>
+    <section class="card-content">
+      <div v-html="code" />
+    </section>
   </div>
 </template>
 
@@ -24,14 +31,15 @@ export default {
 }
 </script>
 
-<style>
-.browser {
-  position: relative;
+<style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 0.5rem;
 }
 
-.close-browser {
-  position: absolute;
-  top: 0;
-  right: 0;
+.card-header-title {
+  text-transform: capitalize;
 }
 </style>

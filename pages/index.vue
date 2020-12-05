@@ -6,11 +6,13 @@
           :label="showSidebar ? 'Save' : ''"
           icon-left="save"
           type="is-success"
+          disabled
         />
         <b-button
           :label="showSidebar ? 'Download' : ''"
           icon-left="cloud-download-alt"
           type="is-primary"
+          disabled
         />
       </div>
 
@@ -36,6 +38,7 @@
                 icon-left="folder-plus"
                 type="is-primary is-light"
                 size="is-small"
+                disabled
               />
             </b-tooltip>
             <b-tooltip
@@ -47,6 +50,7 @@
                 icon-left="file-medical"
                 type="is-primary is-light"
                 size="is-small"
+                disabled
               />
             </b-tooltip>
           </div>

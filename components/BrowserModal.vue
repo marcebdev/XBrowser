@@ -6,11 +6,13 @@
     <section class="modal-card-body">
       <b-field label="Browser Type">
         <b-select v-model="type" expanded>
-          <option value="chrome">Chrome</option>
-          <option value="firefox">Firefox</option>
-          <option value="safari">Safari</option>
-          <option value="edge">Edge</option>
-          <option value="ie">Internet Explorer</option>
+          <option value="chrome">Chrome (Placeholder, runs native)</option>
+          <option value="firefox">Firefox (Placeholder, runs native)</option>
+          <option value="safari">Safari (Placeholder, runs native)</option>
+          <option value="edge">Edge (Placeholder, runs native)</option>
+          <option value="ie">
+            Internet Explorer (Placeholder, runs native)
+          </option>
         </b-select>
       </b-field>
 

@@ -114,10 +114,12 @@
       <div class="browsers">
         <Browser
           v-for="browser in browsers"
-          :key="`${browser.type}_${browser.version}`"
+          :key="browser.id"
           :browser="browser"
           :code="fileCode"
           class="browser"
+          :is-only="browsers.length <= 1"
+          @remove="removeBrowser($event)"
         />
 
         <b-tooltip label="Add Browser" type="is-primary is-light">
@@ -134,6 +136,7 @@
 </template>
 
 <script>
+import { nanoid } from 'nanoid/non-secure'
 import Editor from '~/components/Editor'
 import Browser from '~/components/Browser'
 import BrowserModal from '~/components/BrowserModal'
@@ -161,7 +164,7 @@ export default {
         },
       ],
 
-      browsers: [{ type: 'native', version: '' }],
+      browsers: [{ id: nanoid(), type: 'native', version: '' }],
     }
   },
   computed: {
@@ -195,6 +198,9 @@ export default {
     },
     addBrowser(browser) {
       this.browsers.push(browser)
+    },
+    removeBrowser(id) {
+      this.browsers = this.browsers.filter((browser) => browser.id !== id)
     },
     openBrowserModal() {
       this.$buefy.modal.open({

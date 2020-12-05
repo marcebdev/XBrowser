@@ -4,10 +4,12 @@
       <h4 class="card-header-title">{{ browser.type }}</h4>
 
       <b-button
+        v-if="!isOnly"
         class="close-browser"
         type="is-danger"
         icon-left="times"
         outlined
+        @click="$emit('remove', browser.id)"
       />
     </header>
     <section class="card-content">
@@ -27,6 +29,7 @@ export default {
       type: String,
       required: true,
     },
+    isOnly: Boolean,
   },
 }
 </script>

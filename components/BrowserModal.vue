@@ -34,6 +34,9 @@
 </template>
 
 <script>
+// Import Utils
+import { nanoid } from 'nanoid/non-secure'
+
 export default {
   data() {
     return {
@@ -43,7 +46,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$emit('addBrowser', { type: this.type, version: this.version })
+      this.$emit('addBrowser', {
+        id: nanoid(),
+        type: this.type,
+        version: this.version,
+      })
       this.$parent.close()
     },
   },
